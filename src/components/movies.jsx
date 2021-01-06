@@ -10,7 +10,7 @@ class Movies extends Component {
         pageSize: 4,
         currentPage:1
     }
-
+    
     handleDelete = (movie) => {
 
         //filter method is to get all the movies except the movie clicked (movie._id)
@@ -79,7 +79,7 @@ class Movies extends Component {
                 ))}
                 </tbody>
             </table>
-            <Pagination itemsCount={count} 
+            <Pagination itemsCount="{count}" 
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange} />
