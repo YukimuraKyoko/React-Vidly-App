@@ -16,8 +16,10 @@ class Movies extends Component {
 
     //This method will be called when an instance of this component
     //is rendered in the DOM
+    //This initializes the state properties
     componentDidMount(){
-        this.setState({movies: getMovies(), genres: getGenres()});
+        const genres = [{name: 'All Genres'},...getGenres()];
+        this.setState({movies: getMovies(), genres});
     }
     
     handleDelete = (movie) => {
@@ -48,7 +50,10 @@ class Movies extends Component {
     }
 
     handleGenreSelect = genre => {
-        this.setState({selectedGenre: genre})
+        //We have to reset current page to 1 whenever we switch 
+        //Genres, or else if it's not 1, then no lists will be shown
+        //If selected genre was fewer than 2 pages.
+        this.setState({selectedGenre: genre, currentPage: 1});
     };
 
     render() { 
@@ -64,8 +69,11 @@ class Movies extends Component {
         // get all movies and filter them
         // if the genre of each movie is not equal to the selected genre
         // then we set this filtered list to allMovies
+        //
+        // For "All Genres": If selectedGenre && selectedGenre._id is true
+        // Then we get a filtered array, otherwise we get All the movies
         const filtered = 
-        selectedGenre ? allMovies.filter(m => m.genre._id === selectedGenre._id) : allMovies;
+        selectedGenre && selectedGenre._id ? allMovies.filter(m => m.genre._id === selectedGenre._id) : allMovies;
         const movies = paginate(filtered,currentPage, pageSize);
 
 
