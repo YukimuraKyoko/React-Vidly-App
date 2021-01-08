@@ -88,10 +88,12 @@ class Movies extends Component {
                 </div>
                 <div className="col">
                     <p>Showing {filtered.length} movies in the database.</p>
-                    <MoviesTable>
-                        movies={movies}
-                        onLike={this.handleLike}
-                        onDelete={this.handleDelete}
+                    <MoviesTable
+                    movies={movies}
+                    onLike={this.handleLike}
+                    onDelete={this.handleDelete}
+                    >
+                        
                     </MoviesTable>
                     
                     <Pagination itemsCount={filtered.length}

@@ -4,7 +4,7 @@ import Like from './common/like'
 const MoviesTable = (props) => {
     //Object destructuring
     const {movies, onDelete, onLike} = props;
-
+    
     return ( 
         <table className="table">
         <thead>
@@ -34,6 +34,7 @@ const MoviesTable = (props) => {
         ))}
         </tbody>
     </table>
+        
     );
 }
  
