@@ -19,7 +19,7 @@ class Movies extends Component {
     //is rendered in the DOM
     //This initializes the state properties
     componentDidMount(){
-        const genres = [{name: 'All Genres'},...getGenres()];
+        const genres = [{_id:"", name: 'All Genres'},...getGenres()];
         this.setState({movies: getMovies(), genres});
     }
     
@@ -57,6 +57,10 @@ class Movies extends Component {
         this.setState({selectedGenre: genre, currentPage: 1});
     };
 
+    handleSort = path => {
+        console.log(path);
+    }
+
     render() { 
         //Object Destructuring
         const {length: count} = this.state.movies;
@@ -92,6 +96,7 @@ class Movies extends Component {
                     movies={movies}
                     onLike={this.handleLike}
                     onDelete={this.handleDelete}
+                    onSort={this.handleSort}
                     >
                         
                     </MoviesTable>
