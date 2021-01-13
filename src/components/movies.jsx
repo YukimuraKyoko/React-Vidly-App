@@ -5,14 +5,15 @@ import ListGroup from './common/listGroup';
 import Pagination from './common/pagination';
 import { paginate } from '../utils/paginate';
 import MoviesTable from './moviesTable';
-import Like from './common/like';
+import _ from 'lodash';
 
 class Movies extends Component {
     state = {  
         movies: [],
         genres: [],
         pageSize: 4,
-        currentPage:1
+        currentPage:1,
+        sortColumn: {path: 'title', order: 'asc'}
     }
 
     //This method will be called when an instance of this component
@@ -58,13 +59,27 @@ class Movies extends Component {
     };
 
     handleSort = path => {
-        console.log(path);
+        const sortColumn = {...this.state.sortColumn};
+        if(sortColumn.path === path){
+            sortColumn.order = (sortColumn.order === 'asc') ? 'desc':'asc';
+        }
+        else{
+            sortColumn.path = path;
+            sortColumn.order = 'asc';
+        }
+        this.setState({ sortColumn})
     }
 
     render() { 
         //Object Destructuring
         const {length: count} = this.state.movies;
-        const {pageSize,selectedGenre, currentPage, movies: allMovies} = this.state;
+        const {
+            pageSize,
+            selectedGenre, 
+            currentPage, 
+            movies: allMovies,
+            sortColumn,
+        } = this.state;
 
         if(count === 0){
             return <p>There are no movies in the database</p>
@@ -79,7 +94,10 @@ class Movies extends Component {
         // Then we get a filtered array, otherwise we get All the movies
         const filtered = 
         selectedGenre && selectedGenre._id ? allMovies.filter(m => m.genre._id === selectedGenre._id) : allMovies;
-        const movies = paginate(filtered,currentPage, pageSize);
+        
+        const sorted = _.orderBy(filtered, [sortColumn.path], sortColumn.order)
+
+        const movies = paginate(sorted, currentPage, pageSize);
 
 
         return (
