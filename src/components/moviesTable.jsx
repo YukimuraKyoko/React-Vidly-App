@@ -1,18 +1,32 @@
-import React from 'react';
-import Like from './common/like'
+import React, { Component} from 'react';
+import Like from './common/like';
 
-const MoviesTable = (props) => {
-    //Object destructuring
-    const {movies, onDelete, onLike, onSort} = props;
+
+class MoviesTable extends Component {
+    raiseSort = path => {
+        const sortColumn = {...this.props.sortColumn};
+        if(sortColumn.path === path){
+            sortColumn.order = (sortColumn.order === 'asc') ? 'desc':'asc';
+        }
+        else{
+            sortColumn.path = path;
+            sortColumn.order = 'asc';
+        }
+        this.props.onSort(sortColumn);
+    }
+
+    render() { 
+        //Object destructuring
+    const {movies, onDelete, onLike} = this.props;
     
     return ( 
         <table className="table">
         <thead>
             <tr>
-                <th style={{cursor: "pointer"}} onClick={() => onSort('title')}>Title</th>
-                <th style={{cursor: "pointer"}} onClick={() => onSort('genre.name')}>Genre</th>
-                <th style={{cursor: "pointer"}} onClick={() => onSort('numberInStock')}>Stock</th>
-                <th style={{cursor: "pointer"}} onClick={() => onSort('dailyRentalRate')}>Rate</th>
+                <th style={{cursor: "pointer"}} onClick={() => this.raiseSort('title')}>Title</th>
+                <th style={{cursor: "pointer"}} onClick={() => this.raiseSort('genre.name')}>Genre</th>
+                <th style={{cursor: "pointer"}} onClick={() => this.raiseSort('numberInStock')}>Stock</th>
+                <th style={{cursor: "pointer"}} onClick={() => this.raiseSort('dailyRentalRate')}>Rate</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -36,6 +50,10 @@ const MoviesTable = (props) => {
     </table>
         
     );
+    }
 }
+ 
+
+
  
 export default MoviesTable;
